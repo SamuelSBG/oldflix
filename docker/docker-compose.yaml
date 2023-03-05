@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: oldflix-postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=oldflix
+    volumes:
+      - db-data:/var/lib/postgres
+      - ../api/data/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - '5432:5432'
+    networks:
+      - bridge
+      - backend
+
+  api:
+    container_name: oldflix-api
+    build:
+      context: ../api
+      dockerfile: ../api/Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/oldflix
+    ports:
+      - '8080:8080'
+    networks:
+      - bridge
+    depends_on:
+      - postgres
+
+  app:
+    container_name: oldflix-app
+    build:
+      context: ../app
+      dockerfile: ../app/Dockerfile
+    ports:
+      - '3000:3000'
+    networks:
+      - backend
+    depends_on:
+      - postgres
+      - api
+
+volumes:
+  db-data:
+
+networks:
+  bridge:
+  backend:

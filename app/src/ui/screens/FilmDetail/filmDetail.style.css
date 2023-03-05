@@ -1,0 +1,25 @@
+.image-film-box {
+	max-width: 300px;
+	border-radius: 10px;
+	overflow: hidden;
+	margin: 30px auto;
+}
+
+.film-category {
+	text-align: center;
+	color: lightblue;
+	font-size: 18px;
+}
+
+.avaible-film {
+	color: white;
+	text-align: center;
+}
+
+.film-description {
+	color: white;
+	padding: 0 40px;
+	text-indent: 4rem;
+	text-align: justify;
+	font-size: large;
+}
